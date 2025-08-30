@@ -2,6 +2,10 @@
 
 A desktop application for downloading historical OHLC (Open, High, Low, Close) data from Binance exchange. Built with Wails, Go, and Vue.js.
 
+## Screenshot
+
+![Binance OHLC Downloader Screenshot](./.github/images/screenshot.png)
+
 ## Features
 
 - Download OHLC data for any trading pair on Binance
