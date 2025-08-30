@@ -43,7 +43,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev build-essential
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev build-essential
 
       - name: Build application
         shell: bash
@@ -54,6 +54,7 @@ jobs:
             wails build -platform windows/amd64 -o binance-ohlc-downloader.exe
           elif [ "${{ runner.os }}" = "macOS" ]; then
             wails build -platform darwin/universal -o binance-ohlc-downloader
+            ditto -c -k --sequesterRsrc --keepParent build/bin/binance-ohlc-downloader.app build/bin/binance-ohlc-downloader.zip
           else
             wails build -platform linux/amd64 -o binance-ohlc-downloader
           fi
@@ -62,9 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: binance-ohlc-downloader-${{ runner.os }}
-          path: |
-            bin/
-            !**/*.fid*
+          path: build/bin/
 
   release:
     name: Create Release
@@ -95,6 +94,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            artifacts/binance-ohlc-downloader-ubuntu-latest/bin/binance-ohlc-downloader
-            artifacts/binance-ohlc-downloader-macos-latest/bin/binance-ohlc-downloader
-            artifacts/binance-ohlc-downloader-windows-latest/bin/binance-ohlc-downloader.exe
+            artifacts/binance-ohlc-downloader-ubuntu-latest/binance-ohlc-downloader
+            artifacts/binance-ohlc-downloader-macos-latest/binance-ohlc-downloader.zip
+            artifacts/binance-ohlc-downloader-windows-latest/binance-ohlc-downloader.exe
